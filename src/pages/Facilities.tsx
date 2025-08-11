@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FacilityCard from "@/components/FacilityCard";
 import { Search, Filter, MapPin } from "lucide-react";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 // Mock data - in real app this would come from your backend/API
 const mockFacilities = [
@@ -77,17 +79,21 @@ const mockFacilities = [
 
 const Facilities = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSport, setSelectedSport] = useState("");
+  const [selectedSport, setSelectedSport] = useLocalStorage("facility-sport-filter", "all");
   const [sortBy, setSortBy] = useState("");
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const sports = ["Badminton", "Football", "Tennis", "Basketball", "Cricket"];
 
-  const filteredFacilities = mockFacilities.filter((facility) => {
-    const matchesSearch = facility.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         facility.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSport = !selectedSport || selectedSport === "all" || facility.sport === selectedSport;
-    return matchesSearch && matchesSport;
-  });
+  const filteredFacilities = useMemo(() => {
+    return mockFacilities.filter((facility) => {
+      const matchesSearch = facility.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+                           facility.location.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+      const matchesSport = !selectedSport || selectedSport === "all" || facility.sport === selectedSport;
+      return matchesSearch && matchesSport;
+    });
+  }, [debouncedSearchTerm, selectedSport]);
 
   return (
     <div className="min-h-screen bg-background">

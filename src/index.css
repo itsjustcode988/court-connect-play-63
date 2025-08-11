@@ -57,6 +57,10 @@ All colors MUST be HSL.
     
     /* Animations */
     --transition-sport: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Performance optimizations */
+    --will-change-transform: transform;
+    --backface-visibility: hidden;
 
     --radius: 0.5rem;
 
@@ -123,5 +127,22 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Performance optimizations */
+  .card-hover {
+    will-change: var(--will-change-transform);
+    backface-visibility: var(--backface-visibility);
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Focus accessibility */
+  .focus-visible {
+    @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 }

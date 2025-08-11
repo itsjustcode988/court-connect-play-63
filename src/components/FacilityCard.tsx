@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Star, Clock, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface FacilityCardProps {
   id: string;
@@ -16,6 +17,7 @@ interface FacilityCardProps {
 }
 
 const FacilityCard = ({
+  id,
   name,
   location,
   image,
@@ -74,8 +76,8 @@ const FacilityCard = ({
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full bg-gradient-energy shadow-energy hover:shadow-energy/80 transition-shadow">
-          Book Now
+        <Button className="w-full bg-gradient-energy shadow-energy hover:shadow-energy/80 transition-shadow" asChild>
+          <Link to={`/checkout/facility-${id}`}>Book Now</Link>
         </Button>
       </CardFooter>
     </Card>

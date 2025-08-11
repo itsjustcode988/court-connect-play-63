@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import MatchCard from "@/components/MatchCard";
 import { Search, Plus, Users } from "lucide-react";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 // Mock data - in real app this would come from your backend/API
 const mockMatches = [
@@ -107,19 +109,23 @@ const mockMatches = [
 
 const Matches = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSport, setSelectedSport] = useState("");
-  const [skillLevel, setSkillLevel] = useState("");
+  const [selectedSport, setSelectedSport] = useLocalStorage("match-sport-filter", "all");
+  const [skillLevel, setSkillLevel] = useLocalStorage("match-skill-filter", "all");
+  
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const sports = ["Badminton", "Football", "Tennis", "Basketball", "Cricket"];
   const skillLevels = ["Beginner", "Intermediate", "Advanced"];
 
-  const filteredMatches = mockMatches.filter((match) => {
-    const matchesSearch = match.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         match.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSport = !selectedSport || selectedSport === "all" || match.sport === selectedSport;
-    const matchesSkill = !skillLevel || skillLevel === "all" || match.skillLevel === skillLevel;
-    return matchesSearch && matchesSport && matchesSkill;
-  });
+  const filteredMatches = useMemo(() => {
+    return mockMatches.filter((match) => {
+      const matchesSearch = match.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+                           match.location.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+      const matchesSport = !selectedSport || selectedSport === "all" || match.sport === selectedSport;
+      const matchesSkill = !skillLevel || skillLevel === "all" || match.skillLevel === skillLevel;
+      return matchesSearch && matchesSport && matchesSkill;
+    });
+  }, [debouncedSearchTerm, selectedSport, skillLevel]);
 
   return (
     <div className="min-h-screen bg-background">

@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Calendar, Clock, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface MatchCardProps {
   id: string;
@@ -22,6 +23,7 @@ interface MatchCardProps {
 }
 
 const MatchCard = ({
+  id,
   title,
   sport,
   location,
@@ -112,8 +114,15 @@ const MatchCard = ({
         <Button
           className="w-full bg-gradient-energy shadow-energy hover:shadow-energy/80 transition-shadow"
           disabled={spotsLeft === 0}
+          asChild={spotsLeft > 0}
         >
-          {spotsLeft === 0 ? "Match Full" : `Join Match (${spotsLeft} spots left)`}
+          {spotsLeft === 0 ? (
+            "Match Full"
+          ) : (
+            <Link to={`/checkout/match-${id}`}>
+              Join Match ({spotsLeft} spots left)
+            </Link>
+          )}
         </Button>
       </CardFooter>
     </Card>
