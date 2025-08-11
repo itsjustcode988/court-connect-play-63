@@ -116,8 +116,8 @@ const Matches = () => {
   const filteredMatches = mockMatches.filter((match) => {
     const matchesSearch = match.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          match.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSport = !selectedSport || match.sport === selectedSport;
-    const matchesSkill = !skillLevel || match.skillLevel === skillLevel;
+    const matchesSport = !selectedSport || selectedSport === "all" || match.sport === selectedSport;
+    const matchesSkill = !skillLevel || skillLevel === "all" || match.skillLevel === skillLevel;
     return matchesSearch && matchesSport && matchesSkill;
   });
 
@@ -166,7 +166,7 @@ const Matches = () => {
                     <SelectValue placeholder="Sport type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Sports</SelectItem>
+                    <SelectItem value="all">All Sports</SelectItem>
                     {sports.map((sport) => (
                       <SelectItem key={sport} value={sport}>
                         {sport}
@@ -179,7 +179,7 @@ const Matches = () => {
                     <SelectValue placeholder="Skill level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Levels</SelectItem>
+                    <SelectItem value="all">All Levels</SelectItem>
                     {skillLevels.map((level) => (
                       <SelectItem key={level} value={level}>
                         {level}
@@ -218,8 +218,8 @@ const Matches = () => {
               className="mt-4"
               onClick={() => {
                 setSearchTerm("");
-                setSelectedSport("");
-                setSkillLevel("");
+                setSelectedSport("all");
+                setSkillLevel("all");
               }}
             >
               Clear Filters
