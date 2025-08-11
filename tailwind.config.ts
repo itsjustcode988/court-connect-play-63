@@ -52,6 +52,10 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				'sport-green': 'hsl(var(--sport-green))',
+				'sport-blue': 'hsl(var(--sport-blue))',
+				'energy-orange': 'hsl(var(--energy-orange))',
+				'field-green': 'hsl(var(--field-green))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -88,7 +92,22 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'bounce-gentle': 'bounce 2s infinite',
+				'pulse-slow': 'pulse 3s infinite'
+			},
+			backgroundImage: {
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-energy': 'var(--gradient-energy)'
+			},
+			boxShadow: {
+				'sport': 'var(--shadow-sport)',
+				'card-hover': 'var(--shadow-card)',
+				'energy': 'var(--shadow-energy)'
+			},
+			transitionTimingFunction: {
+				'sport': 'cubic-bezier(0.4, 0, 0.2, 1)'
 			}
 		}
 	},
