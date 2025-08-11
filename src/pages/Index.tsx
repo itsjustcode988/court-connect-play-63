@@ -96,7 +96,7 @@ const Index = () => {
             <h2 className="text-3xl font-bold mb-4">
               Why Choose{" "}
               <span className="bg-gradient-hero bg-clip-text text-transparent">
-                PlayON
+                <img src="/public/favicon.ico" alt="PlayON Logo" />
               </span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
