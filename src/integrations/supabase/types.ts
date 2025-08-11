@@ -14,7 +14,243 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_date: string
+          created_at: string
+          end_time: string
+          facility_id: string
+          id: string
+          notes: string | null
+          start_time: string
+          status: Database["public"]["Enums"]["booking_status"] | null
+          total_price: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          booking_date: string
+          created_at?: string
+          end_time: string
+          facility_id: string
+          id?: string
+          notes?: string | null
+          start_time: string
+          status?: Database["public"]["Enums"]["booking_status"] | null
+          total_price: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          booking_date?: string
+          created_at?: string
+          end_time?: string
+          facility_id?: string
+          id?: string
+          notes?: string | null
+          start_time?: string
+          status?: Database["public"]["Enums"]["booking_status"] | null
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      facilities: {
+        Row: {
+          address: string
+          amenities: string[] | null
+          contact_info: Json | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          location: string
+          name: string
+          operating_hours: Json | null
+          price_per_hour: number
+          sport: Database["public"]["Enums"]["sport_type"]
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          amenities?: string[] | null
+          contact_info?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          location: string
+          name: string
+          operating_hours?: Json | null
+          price_per_hour: number
+          sport: Database["public"]["Enums"]["sport_type"]
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          amenities?: string[] | null
+          contact_info?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          location?: string
+          name?: string
+          operating_hours?: Json | null
+          price_per_hour?: number
+          sport?: Database["public"]["Enums"]["sport_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      match_participants: {
+        Row: {
+          id: string
+          joined_at: string
+          match_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          match_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          match_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_participants_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_time: string
+          facility_id: string | null
+          id: string
+          location: string
+          match_date: string
+          max_players: number
+          organizer_id: string
+          price_per_person: number
+          skill_level: Database["public"]["Enums"]["skill_level"]
+          sport: Database["public"]["Enums"]["sport_type"]
+          start_time: string
+          status: Database["public"]["Enums"]["match_status"] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_time: string
+          facility_id?: string | null
+          id?: string
+          location: string
+          match_date: string
+          max_players: number
+          organizer_id: string
+          price_per_person?: number
+          skill_level: Database["public"]["Enums"]["skill_level"]
+          sport: Database["public"]["Enums"]["sport_type"]
+          start_time: string
+          status?: Database["public"]["Enums"]["match_status"] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_time?: string
+          facility_id?: string | null
+          id?: string
+          location?: string
+          match_date?: string
+          max_players?: number
+          organizer_id?: string
+          price_per_person?: number
+          skill_level?: Database["public"]["Enums"]["skill_level"]
+          sport?: Database["public"]["Enums"]["sport_type"]
+          start_time?: string
+          status?: Database["public"]["Enums"]["match_status"] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string
+          id: string
+          location: string | null
+          phone: string | null
+          preferred_sports: Database["public"]["Enums"]["sport_type"][] | null
+          skill_level: Database["public"]["Enums"]["skill_level"] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          location?: string | null
+          phone?: string | null
+          preferred_sports?: Database["public"]["Enums"]["sport_type"][] | null
+          skill_level?: Database["public"]["Enums"]["skill_level"] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          location?: string | null
+          phone?: string | null
+          preferred_sports?: Database["public"]["Enums"]["sport_type"][] | null
+          skill_level?: Database["public"]["Enums"]["skill_level"] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +259,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      booking_status: "pending" | "confirmed" | "cancelled" | "completed"
+      match_status: "open" | "full" | "in_progress" | "completed" | "cancelled"
+      skill_level: "beginner" | "intermediate" | "advanced" | "professional"
+      sport_type:
+        | "badminton"
+        | "tennis"
+        | "football"
+        | "cricket"
+        | "basketball"
+        | "squash"
+        | "table_tennis"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +396,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      booking_status: ["pending", "confirmed", "cancelled", "completed"],
+      match_status: ["open", "full", "in_progress", "completed", "cancelled"],
+      skill_level: ["beginner", "intermediate", "advanced", "professional"],
+      sport_type: [
+        "badminton",
+        "tennis",
+        "football",
+        "cricket",
+        "basketball",
+        "squash",
+        "table_tennis",
+      ],
+    },
   },
 } as const
