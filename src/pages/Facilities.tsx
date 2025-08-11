@@ -85,7 +85,7 @@ const Facilities = () => {
   const filteredFacilities = mockFacilities.filter((facility) => {
     const matchesSearch = facility.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          facility.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSport = !selectedSport || facility.sport === selectedSport;
+    const matchesSport = !selectedSport || selectedSport === "all" || facility.sport === selectedSport;
     return matchesSearch && matchesSport;
   });
 
@@ -117,19 +117,19 @@ const Facilities = () => {
                     className="pl-10"
                   />
                 </div>
-                <Select value={selectedSport} onValueChange={setSelectedSport}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sport type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All Sports</SelectItem>
-                    {sports.map((sport) => (
-                      <SelectItem key={sport} value={sport}>
-                        {sport}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <Select value={selectedSport} onValueChange={setSelectedSport}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sport type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Sports</SelectItem>
+                      {sports.map((sport) => (
+                        <SelectItem key={sport} value={sport}>
+                          {sport}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger>
                     <SelectValue placeholder="Sort by" />
@@ -175,7 +175,7 @@ const Facilities = () => {
               className="mt-4"
               onClick={() => {
                 setSearchTerm("");
-                setSelectedSport("");
+                setSelectedSport("all");
                 setSortBy("");
               }}
             >
