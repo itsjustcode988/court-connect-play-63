@@ -11,6 +11,7 @@ import Matches from "./pages/Matches";
 import Bookings from "./pages/Bookings";
 import Auth from "./pages/Auth";
 import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/bookings" element={<Bookings />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/checkout/:bookingId" element={<Checkout />} />
+              <Route path="/profile" element={<Profile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
