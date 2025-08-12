@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,94 +6,66 @@ import FacilityCard from "@/components/FacilityCard";
 import { Search, Filter, MapPin } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
-// Mock data - in real app this would come from your backend/API
-const mockFacilities = [
-  {
-    id: "1",
-    name: "Elite Badminton Center",
-    location: "Koramangala, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.8,
-    price: 800,
-    sport: "Badminton",
-    availability: "9 AM - 10 PM",
-    maxPlayers: 4,
-  },
-  {
-    id: "2",
-    name: "Champions Football Turf",
-    location: "Indiranagar, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.6,
-    price: 1200,
-    sport: "Football",
-    availability: "6 AM - 11 PM",
-    maxPlayers: 22,
-  },
-  {
-    id: "3",
-    name: "Ace Tennis Academy",
-    location: "HSR Layout, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.9,
-    price: 600,
-    sport: "Tennis",
-    availability: "7 AM - 9 PM",
-    maxPlayers: 4,
-  },
-  {
-    id: "4",
-    name: "Power Basketball Court",
-    location: "Whitefield, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.7,
-    price: 700,
-    sport: "Basketball",
-    availability: "5 AM - 10 PM",
-    maxPlayers: 10,
-  },
-  {
-    id: "5",
-    name: "Dream Cricket Ground",
-    location: "Electronic City, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.5,
-    price: 2000,
-    sport: "Cricket",
-    availability: "6 AM - 8 PM",
-    maxPlayers: 22,
-  },
-  {
-    id: "6",
-    name: "Shuttle Express",
-    location: "Jayanagar, Bangalore",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop",
-    rating: 4.4,
-    price: 750,
-    sport: "Badminton",
-    availability: "8 AM - 11 PM",
-    maxPlayers: 4,
-  },
-];
 
 const Facilities = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSport, setSelectedSport] = useLocalStorage("facility-sport-filter", "all");
   const [sortBy, setSortBy] = useState("");
+  const [facilities, setFacilities] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const sports = ["Badminton", "Football", "Tennis", "Basketball", "Cricket"];
+  const sports = ["badminton", "football", "tennis", "basketball", "cricket", "volleyball", "swimming"];
+
+  useEffect(() => {
+    loadFacilities();
+  }, []);
+
+  const loadFacilities = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('facilities')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading facilities:', error);
+        toast.error('Failed to load facilities');
+      } else {
+        setFacilities(data || []);
+      }
+    } catch (error) {
+      console.error('Error loading facilities:', error);
+      toast.error('Failed to load facilities');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredFacilities = useMemo(() => {
-    return mockFacilities.filter((facility) => {
+    let filtered = facilities.filter((facility: any) => {
       const matchesSearch = facility.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
                            facility.location.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
       const matchesSport = !selectedSport || selectedSport === "all" || facility.sport === selectedSport;
       return matchesSearch && matchesSport;
     });
-  }, [debouncedSearchTerm, selectedSport]);
+
+    // Apply sorting
+    if (sortBy === "rating") {
+      filtered = filtered.sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0));
+    } else if (sortBy === "price-low") {
+      filtered = filtered.sort((a: any, b: any) => a.price_per_hour - b.price_per_hour);
+    } else if (sortBy === "price-high") {
+      filtered = filtered.sort((a: any, b: any) => b.price_per_hour - a.price_per_hour);
+    }
+
+    return filtered;
+  }, [facilities, debouncedSearchTerm, selectedSport, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -130,7 +102,7 @@ const Facilities = () => {
                     <SelectContent>
                       <SelectItem value="all">All Sports</SelectItem>
                       {sports.map((sport) => (
-                        <SelectItem key={sport} value={sport}>
+                        <SelectItem key={sport} value={sport} className="capitalize">
                           {sport}
                         </SelectItem>
                       ))}
@@ -165,11 +137,28 @@ const Facilities = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredFacilities.map((facility) => (
-            <FacilityCard key={facility.id} {...facility} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-r-transparent"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredFacilities.map((facility: any) => (
+              <FacilityCard 
+                key={facility.id} 
+                id={facility.id}
+                name={facility.name}
+                location={facility.location}
+                image={facility.image_url || "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop"}
+                rating={4.5} // Default rating since we don't have reviews yet
+                price={facility.price_per_hour}
+                sport={facility.sport}
+                availability="Open" // Simplified for now
+                maxPlayers={facility.sport === 'cricket' || facility.sport === 'football' ? 22 : 4}
+              />
+            ))}
+          </div>
+        )}
 
         {filteredFacilities.length === 0 && (
           <div className="text-center py-12">
