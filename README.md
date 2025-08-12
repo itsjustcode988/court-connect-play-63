@@ -1,73 +1,31 @@
-# Welcome to your Lovable project
+PlayON
+PlayON is a mobile app designed for sports enthusiasts who want to find, join, and organize local pickup games and sports leagues.
 
-## Project info
+About
+PlayON is more than just an app; it's a community. We know how hard it can be to find a group to play basketball on a Tuesday night or find a team for a weekend soccer tournament. PlayON takes the hassle out of organizing by connecting you with players and games right in your neighborhood.
 
-**URL**: https://lovable.dev/projects/d2d56e44-5082-4e73-b150-d184b99922d5
+Key Features:
 
-## How can I edit this code?
+Find Games: A dynamic map shows you all the games happening in your area in real-time. Filter by sport, skill level, and location to find your perfect match.
 
-There are several ways of editing your application.
+Create Your Own: Can't find a game? Create one! Set the sport, location, time, and invite friends or open it up to the PlayON community.
 
-**Use Lovable**
+Join Leagues: Discover local leagues for various sports. View league details, schedules, and standings right in the app.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d2d56e44-5082-4e73-b150-d184b99922d5) and start prompting.
+Player Profiles: Build your profile, showcase your skills, and connect with other athletes. Rate players after a game to help the community find the best competition.
 
-Changes made via Lovable will be committed automatically to this repo.
+Real-time Chat: Coordinate with players before a game, discuss strategy, or just trash talk—all within the app's chat feature.
 
-**Use your preferred IDE**
+Get Started
+Download the app from the App Store or Google Play.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Create your profile: Tell us what sports you love and your skill level.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Explore the map: See what's happening around you and jump into a game.
 
-Follow these steps:
+Lace up, and get out there!
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Contribute
+We're always looking for ways to improve PlayON. If you're a developer or a designer who loves sports, check out our contribution guidelines.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/d2d56e44-5082-4e73-b150-d184b99922d5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Ready to get in the game? Let's PlayON!
